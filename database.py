@@ -82,6 +82,8 @@ def upsert_user(user_id, username=None, first_name=None):
 
 def set_user_state(user_id, state):
     with get_connection() as conn:
+        # التأكد من وجود المستخدم أولاً لتجنب فشل التحديث
+        conn.execute("INSERT OR IGNORE INTO users (user_id, joined_at) VALUES (?, datetime('now'))", (user_id,))
         conn.execute("UPDATE users SET state = ? WHERE user_id = ?", (state, user_id))
 
 def get_user_state(user_id):
