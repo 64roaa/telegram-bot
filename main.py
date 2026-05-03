@@ -418,7 +418,9 @@ def main():
     scheduler.add_job(check_subscriptions, 'interval', hours=1, args=[app])
     scheduler.start()
     
-    app.run_polling(drop_pending_updates=True)
+    # البدء بتنظيف أي تحديثات قديمة لضمان عدم حدوث تعارض
+    logger.info("🚀 Starting Bot in Production Mode...")
+    app.run_polling(drop_pending_updates=True, close_loop=False)
 
 if __name__ == "__main__":
     main()

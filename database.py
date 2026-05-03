@@ -4,7 +4,11 @@ from datetime import datetime, timedelta
 from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
-DB_PATH = "amanteech.db"
+import os
+# مسار قاعدة البيانات في مجلد مستقل لضمان الحفظ في السحابة
+if not os.path.exists("data"):
+    os.makedirs("data")
+DB_PATH = "data/amanteech.db"
 
 @contextmanager
 def get_connection():
