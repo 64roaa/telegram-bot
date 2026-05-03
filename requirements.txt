@@ -9,3 +9,5 @@ openai>=1.6.0
 filetype==1.2.0
 
 anthropic>=0.18.0
+
+google-generativeai
