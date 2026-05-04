@@ -51,6 +51,7 @@ class _Config:
     BOT_TOKEN: str         = os.getenv("BOT_TOKEN", "")
     VIRUSTOTAL_KEY: str    = os.getenv("VIRUSTOTAL_KEY", "")
     OPENAI_KEY: str        = os.getenv("OPENAI_KEY", "")
+    GEMINI_KEY: str        = os.getenv("GEMINI_KEY", "")
     SAFE_BROWSING_KEY: str = os.getenv("SAFE_BROWSING_KEY", "")
     WEBHOOK_URL: str       = os.getenv("WEBHOOK_URL", "")
     PORT: int              = int(os.getenv("PORT", "8080"))
@@ -78,6 +79,7 @@ class _Config:
         optional = {
             "VIRUSTOTAL_KEY": self.VIRUSTOTAL_KEY,
             "OPENAI_KEY": self.OPENAI_KEY,
+            "GEMINI_KEY": self.GEMINI_KEY,
             "STRIPE_SECRET_KEY": self.STRIPE_SECRET_KEY,
             "STRIPE_WEBHOOK_SECRET": self.STRIPE_WEBHOOK_SECRET
         }
