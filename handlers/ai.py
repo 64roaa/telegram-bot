@@ -34,18 +34,28 @@ async def answer_ai_question(update: Update, context: ContextTypes.DEFAULT_TYPE,
         msg = await update.effective_message.reply_text("⏳ أحلل سؤالك بدقة لاستخراج أفضل نصيحة...")
         
         # جلب الرد
+        # جلب الرد من المحرك
         try:
             response = await get_ai_response(question)
         except Exception as ai_err:
-            logger.error(f"❌ Critical AI Manager Error: {ai_err}")
+            logger.error(f"❌ AI Engine Error: {ai_err}")
             response = "⚠️ عذراً، واجه محرك الذكاء الاصطناعي مشكلة فنية. جرب مجدداً لاحقاً."
 
-        await msg.edit_text(response, parse_mode="Markdown")
+        # محاولة تعديل الرسالة بالرد
+        try:
+            await msg.edit_text(response, parse_mode="Markdown")
+        except Exception as parse_err:
+            logger.warning(f"⚠️ Markdown parsing failed, sending plain text: {parse_err}")
+            await msg.edit_text(response) # إرسال بدون تنسيق كخيار بديل
+
         db.log_scan(user_id, "🤖 AI", question[:100], "استشارة")
         logger.info(f"✅ AI Response delivered to {user_id}")
         
     except Exception as e:
         logger.error(f"❌ General AI Handler Error: {e}")
-        await update.effective_message.reply_text("⚠️ حدث خطأ غير متوقع أثناء معالجة سؤالك.")
+        # إذا فشل التعديل تماماً، نحاول إرسال رسالة جديدة
+        try:
+            await update.effective_message.reply_text("⚠️ حدث خطأ في عرض الإجابة، يرجى المحاولة مرة أخرى.")
+        except: pass
     finally:
         db.set_user_state(user_id, None)
