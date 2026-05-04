@@ -17,7 +17,7 @@ def _get_gemini_model():
         try:
             import google.generativeai as genai
             genai.configure(api_key=gemini_key)
-            _gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+            _gemini_model = genai.GenerativeModel('gemini-pro')
         except Exception as e:
             logger.error(f"❌ فشل تهيئة Gemini: {e}")
     return _gemini_model
